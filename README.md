@@ -1,12 +1,13 @@
 <div align="center">
 
-<img src="https://cdn.discordapp.com/attachments/1516642189449363547/1519555140862869574/image.png" width="100%">
+<!-- Remplacez le texte ci-dessous par le lien de votre image hébergée sur GitHub -->
+<img src="VOTRE_LIEN_IMAGE_ICI" width="100%">
 
 # 🛠️ SNOOP | Security Framework
 ### *High-Performance Modular Toolkit for Penetration Testing*
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Community-7289DA?style=for-the-badge&logo=discord)](https://discord.gg/snoop)
 
 ---
 
