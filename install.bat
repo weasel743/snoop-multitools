@@ -1,37 +1,27 @@
 @echo off
-title INSTALLATION SN00P RAT
+title Installation des dépendances - SNOOP
 color 0A
 echo ========================================
-echo  INSTALLATION DES DEPENDANCES CURY
+echo  INSTALLATION DES PAQUETS PYTHON
 echo ========================================
 echo.
 
 :: Vérifier Python
-python --version >nul 2>&1 || ( echo [ERREUR] Python introuvable. & pause & exit /b 1 )
-
-:: Mise à jour pip
-python -m pip install --upgrade pip setuptools wheel -q
-
-:: Modules critiques (obligatoires)
-echo [1/3] Installation des modules principaux...
-pip install pyautogui mss pynput discord.py requests pillow comtypes pyperclip pywin32 psutil ipaddress -q --no-cache-dir
-
-:: Modules optionnels (ignore les erreurs)
-echo [2/3] Installation des modules optionnels...
-pip install browserhistory opencv-python numpy pyaudio wave -q --no-cache-dir 2>nul
-
-:: Fallback pour pyaudio (via pipwin)
-echo [3/3] Verification pyaudio...
-python -c "import pyaudio" >nul 2>&1
+python --version >nul 2>&1
 if errorlevel 1 (
-    pip install pipwin -q --no-cache-dir 2>nul
-    pipwin install pyaudio -q 2>nul
+    echo [ERREUR] Python non trouve. Installe Python 3.8+ depuis python.org
+    pause
+    exit /b 1
 )
 
-:: Test final
-echo.
-python -c "import pyautogui, mss, pynput, discord, requests, PIL, comtypes, pyperclip, win32api, psutil" >nul 2>&1
-if errorlevel 1 ( echo [ECHEC] Certains modules manquent. Relancez manuellement. ) else ( echo [SUCCES] Tous les modules sont presents. )
+:: Mettre à jour pip
+python -m pip install --upgrade pip -q
 
+:: Installer les paquets (liste complète, sans doublons)
+echo Installation en cours...
+pip install -q flask pyinstaller pystyle colorama requests aiohttp beautifulsoup4 selenium webdriver-manager pillow opencv-python pynput pyperclip pywin32 psutil pyaudio wave numpy browserhistory cryptography mss discord.py mnemonic stem PySocks whois phonenumbers dnspython websocket-client piexif exifread mutagen PyQt5 werkzeug
+
+echo.
+echo [SUCCES] Toutes les dependances sont installees.
 echo.
 pause
