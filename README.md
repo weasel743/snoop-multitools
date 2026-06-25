@@ -1,51 +1,52 @@
-# 🛠️ Snoop - Multi-Tools
+<div align="center">
 
-**A comprehensive security research and penetration testing toolkit.**
+<img src="https://cdn.discordapp.com/attachments/1516642189449363547/1519555140862869574/image.png" width="100%">
 
----
+# 🛠️ SNOOP | Security Framework
+### *High-Performance Modular Toolkit for Penetration Testing*
 
-## ⚠️ LEGAL DISCLAIMER
-
-> **This tool is strictly for educational purposes and authorized penetration testing only.**
->
-> Unauthorized access to computer systems, networks, or accounts is illegal. The author (weaselgb) does not condone or take responsibility for any misuse of this software. By downloading, installing, or using this tool, you agree that you are solely responsible for your actions and will use it exclusively on systems you own or have explicit written permission to test.
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ---
 
-## ✨ Core Features
+**Snoop** is a professional-grade modular framework designed to centralize and automate 40+ security, OSINT, and infrastructure analysis tools into a single, highly efficient interface.
 
-Snoop is a modular framework featuring over **40+ specialized tools** organized into seven key categories:
+</div>
 
-| Category | Highlights |
+---
+
+## 🛠️ CORE CAPABILITIES
+
+| Category | Modules Overview |
 | :--- | :--- |
-| **🧨 Malicious** | Grabbers, RAT, IP Logger, Keylogger, DDoS, Vulnerability Scanner, etc. |
-| **💬 Discord** | Selfbot, Raid/Nuke tools, Token manager, Server Cloner, etc. |
-| **🔎 OSINT** | IP, Email, Phone lookup, Social Media tracker, Whois, Port scanning. |
-| **🧰 Utilities** | Binder, Crypter, Fusion, USB Worm, Phishing generator, Proxy tools. |
-| **🔑 Login** | Discord token and website cookie injection tools. |
-| **🎮 Roblox** | Cookie extraction, account management, asset downloading. |
-| **⚙️ Settings** | Configuration management and maintenance. |
+| **Offensive Security** | Advanced RAT, Keyloggers, DDoS, Vulnerability Scanners. |
+| **Information Gathering** | Deep OSINT, IP/Email/Phone Trace, DNS & Port Recon. |
+| **Web & Discord** | Token/Cookie Injection, Raid/Nuke Tools, Server Cloner. |
+| **Account Analysis** | Roblox Asset Extraction & Account Security Auditing. |
 
 ---
 
-## 🚀 Installation and Launch Guide
+## 🚀 GETTING STARTED
 
-For the best experience on **Windows**, we have automated the setup process.
+The setup process has been streamlined for maximum efficiency.
 
-### Option 1: Quick Install & Launch (Recommended)
-1. **Download or clone** the repository.
-2. In the root folder, double-click the **`install.bat`** file. This will automatically install all required dependencies.
-3. Once the installation is complete, double-click the **`start.bat`** file to launch the tool.
+### ⚡ Windows (Recommended)
+1. **Install:** Double-click the **`install.bat`** file. It will automatically detect your environment and install all necessary dependencies.
+2. **Launch:** Once installation is complete, double-click the **`start.bat`** file to initialize the framework.
 
-### Option 2: Manual Installation (Cross-Platform)
-If you prefer manual setup or are using a non-Windows operating system:
+### 💻 Manual / Cross-Platform
+For users requiring manual control or working on non-Windows environments:
 
-1. **Prerequisites:** Ensure Python 3.8+ is installed.
-2. **Clone the repository:**
 ```bash
-   git clone [https://github.com/weaselgb/Snoop---Multi-Tools.git](https://github.com/weaselgb/Snoop---Multi-Tools.git)
-   cd Snoop---Multi-Tools
-    Install dependencies
-   pip install -r requirements.txt
-   Launch the tool:
-   python main.py / start.bat
+# Clone the repository
+git clone [https://github.com/weaselgb/Snoop---Multi-Tools.git](https://github.com/weaselgb/Snoop---Multi-Tools.git)
+cd Snoop---Multi-Tools
+
+# Install requirements
+pip install -r requirements.txt
+
+# Run the framework
+python main.py
+⚠️ LEGAL DISCLAIMER
+Disclaimer: This software is provided for educational purposes and authorized penetration testing only. Unauthorized access to computer systems, networks, or accounts is illegal. The author does not condone misuse. By using this tool, you assume full responsibility for your actions and compliance with all applicable laws.
