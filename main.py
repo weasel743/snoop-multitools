@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-"""
-SNOOP - Advanced Security Research Toolkit
-Main entry point for the console-based interface.
-"""
-
 import sys
 import time
 import os
@@ -32,6 +24,10 @@ import webbrowser
 # -------------------------------------------------------------------
 BASE_DIR = Path(__file__).parent.absolute()
 STUB_DIR = BASE_DIR / "stub"
+
+# 👇 CORRECTION : permet à Python de trouver les modules dans le dossier stub/
+sys.path.insert(0, str(STUB_DIR))
+
 MODULES_DIR = BASE_DIR / "modules"
 OUTPUT_DIR = BASE_DIR / "output"
 BUILD_OUTPUT_DIR = OUTPUT_DIR / "build_output"
